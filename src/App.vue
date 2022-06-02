@@ -21,11 +21,8 @@ export default {
   data() {
     return {
       //事情储存为对象集合成数组，储存在list中
-      todos:[
-        {id:'001',name:"写代码",done:true},
-        {id:'002',name:"背单词",done:false},
-        {id:'003',name:"刷题",done:true},
-      ]
+      todos:JSON.parse(localStorage.gerItem('todos'))||[]
+      
     }
   },
   methods: {
@@ -58,8 +55,12 @@ export default {
       })
     }
   },
+  //事情存入浏览器内存，实现本地记事本效果
+  watch:{
+    todos(value){
+      localStorage.setItem('todos',JSON.stringify(value))
+  }
 }
-
 </script>
 
 <style>
