@@ -29,24 +29,7 @@ export default {
         //通知App删除对应项
         this.deletething(id)
       }
-    },
-    // handleEdit(todo) {
-    //   if(todo.hasOwnProperty('isEidt')) {
-    //     todo.isEdit = true
-    //   }else {
-    //     this.$set(todo, 'isEdit', true)
-    //   }
-    //   this.$nextTick(() => {
-    //     this.$refs.inputTitle.focus()
-    //   })
-    // },
-    // handleBlur(todo, e) {
-    //   let id = todo.id
-    //   let title = e.target.value
-    //   todo.isEdit = false
-    //   if(!e.target.value.trim()) return alert('输入不能为空')
-    //   pubsub.publish('updateTodo', {id, title} )
-    // }
+    }
   },
 }
 </script>
