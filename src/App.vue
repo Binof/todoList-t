@@ -2,9 +2,9 @@
   <div id="app">
     <div class="todo-container">
       <div class="todo-wrap">
-        <my-header :addthing="addthing"></my-header>
-        <list :todos="todos" :checkthing="checkthing" :deletething="deletething"></list>
-        <my-footer :todos="todos" :checkAllthings="checkAllthings" :clearDoneThing="clearDoneThing"></my-footer>
+        <my-header ></my-header>
+        <list :todos="todos"></list>
+        <my-footer :todos="todos" @checkAllthings="checkAllthings" @clearDoneThing="clearDoneThing"></my-footer>
       </div>
     </div>
   </div>
@@ -20,45 +20,82 @@ export default {
   name: 'App',
   data() {
     return {
+<<<<<<< HEAD
       //事情储存为对象集合成数组，储存在list中
       todos:JSON.parse(localStorage.gerItem('todos'))||[]
       
+=======
+      //事情对象存储在浏览器内存中，下次刷新不会丢失数据
+      //JSON.parse(解析的数据)将JSON数据解析成js对象
+      //JSON.stringify(value)将js对象转换为JSON格式
+      todos: JSON.parse(localStorage.getItem("todos")) || []
+    }
+  },
+  watch: {
+    //开启深度监视
+    todos: {
+      deep: true,
+      handler(value) {
+        localStorage.setItem('todos', JSON.stringify(value))
+      }
+>>>>>>> 7bc8949 (bin update function)
     }
   },
   methods: {
     //添加事情到列表
-    addthing(thing){
+    addThing(thing) {
       this.todos.unshift(thing)
     },
     //通过复选框改变事情的状态
-    checkthing(id){
-  this.todos.forEach((thing) => {
-      if(thing.id === id) thing.done = !thing.done
-  });
+    checkThing(id) {
+      this.todos.forEach((thing) => {
+        if (thing.id === id) thing.done = !thing.done
+      });
     },
     //删除对应事件thing
-    deletething(id){
-      this.todos = this.todos.filter((thing)=>{
-        return thing.id !==id
+    deleteThing(id) {
+      this.todos = this.todos.filter((thing) => {
+        return thing.id !== id
       })
     },
     //根据footer里面的全选按钮来决定事件的勾选
-    checkAllthings(done){
-      this.todos.forEach((thing)=>{
+    checkAllthings(done) {
+      this.todos.forEach((thing) => {
         thing.done = done
       })
     },
     //清除已经完成的事情
-    clearDoneThing(){
-     this.todos = this.todos.filter((thing)=>{
+    clearDoneThing() {
+      this.todos = this.todos.filter((thing) => {
         return !thing.done
       })
-    }
+    },
+    //编辑事件回调
+     updateThing(id, name) {
+      this.todos.forEach((thing) => {
+        if (thing.id === id) thing.name = name
+      });
+    },
   },
+<<<<<<< HEAD
   //事情存入浏览器内存，实现本地记事本效果
   watch:{
     todos(value){
       localStorage.setItem('todos',JSON.stringify(value))
+=======
+  //监视：将事情都加入浏览器本地缓存
+  mounted() {
+    this.$bus.$on('addThing',this.addThing)
+    this.$bus.$on('checkThing', this.checkThing)
+    this.$bus.$on('deleteThing', this.deleteThing)
+     this.$bus.$on('updateThing',this.updateThing)
+  },
+  beforeDestroy() {
+     this.$bus.$off('addThing')
+    this.$bus.$off('cherkedThing')
+    this.$bus.$off('deleteThing')
+    this.$bus.$off('updateThing')
+>>>>>>> 7bc8949 (bin update function)
   }
 }
 </script>

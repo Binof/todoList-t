@@ -9,7 +9,6 @@ import {nanoid} from "nanoid"
 
 export default {
   name: 'MyHeader',
-  props:['addthing'],
   data() {
     return {
       title:''
@@ -24,7 +23,10 @@ export default {
         name:this.title,
         done:false
       }
-      this.addthing(thing)
+      //通过自定义事件
+      // this.$emit('addThing',thing)
+      //通过总线事件来实现
+      this.$bus.$emit('addThing',thing)
       //添加后清空输入框内容
       this.title = ''
     }
